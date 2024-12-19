@@ -1,0 +1,82 @@
+package betterj
+
+import (
+	"testing"
+)
+
+func TestMinifyJ(t *testing.T) {
+
+	//here we defined the input and output format for the function we created
+	//as mentioned here: [Creating go module](https://dev.to/kingkunte_/go-modules-beginners-guide-4a7p#:~:text=In%20the%20Go%20programming%20language,in%20the%20module's%20root%20directory.)
+
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{
+			`{
+				"name": "John",
+				"age": 30,
+				"city": "New York"
+			}`,
+			`{"name":"John","age":30,"city":"New York"}`,
+		},
+		{
+			`{
+				"key": "value"
+			}`,
+			`{"key":"value"}`,
+		},
+	}
+
+	//_ is the index
+	for _, tt := range tests {
+		t.Run(tt.input, func(t *testing.T) {
+			result, err := MinifyJ(tt.input)
+			if err != nil {
+				t.Errorf("MinifyJ failed: %v", err)
+			}
+			if result != tt.expected {
+				t.Errorf("expected %v, got %v", tt.expected, result)
+			}
+		})
+	}
+}
+
+func TestBeautifyJ(t *testing.T) {
+	tests := []struct {
+		input    string
+		indent   string
+		expected string
+	}{
+		{
+			`{"name":"John","age":30,"city":"New York"}`,
+			"  ",
+			`{
+  "name": "John",
+  "age": 30,
+  "city": "New York"
+}`,
+		},
+		{
+			`{"key":"value"}`,
+			"\t",
+			`{
+	"key": "value"
+}`,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.input, func(t *testing.T) {
+			result, err := BeautifyJ(tt.input, tt.indent)
+			if err != nil {
+				t.Errorf("BeautifyJ failed: %v", err)
+			}
+			if result != tt.expected {
+				t.Errorf("expected %v, got %v", tt.expected, result)
+			}
+		})
+	}
+}
+
